@@ -54,7 +54,7 @@ def get_life_expectancy(
             regex=r'^black$|^white$|^all$'),
         year: int = Path(
             ...,
-            title=' Year whose life expectancy you want to know',
+            title='Year whose life expectancy you want to know',
             description='Required. Only a number between 1900 and 2017 '
                         'is valid',
             ge=1900,
@@ -73,10 +73,11 @@ def get_life_expectancy(
 def get_unemployment(state: str = Path(
     ...,
     title='State of the United States from which to obtain unemployment.',
-    description='Required, not case sensitive. '
-                'Only full state names are allowed. For names with more than one word use underscore ("_"). '
-                'For example: District of Columbia would be district_of_columbia. You can find a complete '
-                'list of official names here: https://www.bls.gov/web/laus/lauhsthl.htm'
+    description='Required, lower-case and case insensitive. '
+                'Only full state names are allowed. For names with more than one word you can use space (" ", "%20") or'
+                ' underscore ("_"). For example: District of Columbia could be `district_of_columbia` or `district of '
+                'columbia`. You can find a complete list of official names [here]('
+                'https://www.bls.gov/web/laus/lauhsthl.htm) '
 )):
     state = state.replace('_', ' ').title().replace(' Of ', ' of ')
 
@@ -98,9 +99,7 @@ def get_unemployment(state: str = Path(
 async def get_trends(phrase: str = Query(
     ...,
     title='Phrase you want to know the trend in Google.',
-    description='The data will be returned in days. The API is capable of returning results from '
-                'about 4 days prior to the current date. If the date range is very large, '
-                'weekly trends will be returned. '
+    description='The data will be returned in days. If the date range is very large, weekly trends will be returned. '
 ),
         start_date: Union[date, None] = None,
         end_date: Union[date, None] = None):
