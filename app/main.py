@@ -103,20 +103,25 @@ async def get_trends(trends_inputs: TrendsInputs = Depends(TrendsInputs)):
         list_of_trends = (trends.iloc[:, 0].values.tolist())
 
     except:
-        raise GoogleError(f'{ResponseError} Please try again in a few seconds. If the error persists, contact an '
-                          f'administrator.')
+        raise HTTPException(status_code=400,
+                            detail='Google not responding. Please try again in a few seconds. If the error persists, '
+                                   'contact an administrator.')
 
     return {'interest': list_of_trends}
 
 
 @app.get("/weather")
-async def get_weather(location: str = json.loads(urlopen("https://ip.seeip.org/jsonip?").read())["ip"]):
+async def get_weather():
+
+    location = json.loads(urlopen("https://ip.seeip.org/jsonip?").read())["ip"]
 
     WEATHER_API_KEY = get_secret("WEATHER_API_KEY", "")
 
     if WEATHER_API_KEY is None or WEATHER_API_KEY == '':
-        raise ValueError(
-            'You need to set up an API KEY from weatherapi.com. Go to the documentation if you have any questions.')
+        raise HTTPException(status_code=400,
+                            detail='You need to set up an API KEY from weatherapi.com. Go to the documentation if you '
+                                   'have any questions.')
+
 
     weather_dict = {}
 
@@ -160,6 +165,9 @@ async def get_weather(location: str = json.loads(urlopen("https://ip.seeip.org/j
 async def get_trends_weather(
         phrase: str = Query(
             ...,
+            regex=r'[a-zA-Z0-9 ]',
+            min_length=3,
+            max_length=50,
             title='Phrase that you want to know the trend in Google.',
             description='Required. The data will be returned in days.  '
         )):
