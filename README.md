@@ -25,7 +25,8 @@ You can test the API in a web browser or on a platform like Postman through the 
     - sex: Sex whose life expectancy you want to know. Required. Only the values "female", "male" or "both" are valid.
     - race: Race whose life expectancy you want to know. Required. Only the values "black", "white" or "all" are valid.
     - year: Year whose life expectancy you want to know. Required. Only a number between 1900 and 2017 is valid.
-    > Example: [http://localhost/life_expectancy/male/black/2017](http://localhost/life_expectancy/male/black/2017)
+    
+  > Example: [http://localhost/life_expectancy/male/black/2017](http://localhost/life_expectancy/male/black/2017)
     
     Output example: {‘interest’: \[NUMBERS\]}
 

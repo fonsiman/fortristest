@@ -1,7 +1,8 @@
 version: "3.9"
+
 services:
-  forstrisapi:
-    image: forstrisapi
+  api:
+    image: fortrisapi
     build:
       dockerfile: Dockerfile
     ports:
@@ -13,4 +14,4 @@ services:
 
 secrets:
   weather_api_key:
-    file: weather_api_key.txt
+    file: ./weather_api_key.txt
